@@ -91,7 +91,7 @@ int initialization()
 	internet_address_setup.ai_family = AF_UNSPEC;
 	internet_address_setup.ai_socktype = SOCK_STREAM;
 	internet_address_setup.ai_flags = AI_PASSIVE;
-	int getaddrinfo_return = getaddrinfo( NULL, "24142", &internet_address_setup, &internet_address_result );
+	int getaddrinfo_return = getaddrinfo( NULL, "24042", &internet_address_setup, &internet_address_result );
 	if( getaddrinfo_return != 0 )
 	{
 		fprintf( stderr, "getaddrinfo: %s\n", gai_strerror( getaddrinfo_return ) );
@@ -166,63 +166,13 @@ int connection( int internet_socket )
 
 void execution( int internet_socket )
 {
-	/*int stopped = 0;
-	while(stopped != 1)
-	{
-		number_of_bytes_received = recv( internet_socket, buffer, ( sizeof buffer ) - 1, 0 );
-			if( number_of_bytes_received == -1 )
-			{
-				printf("error: number_of_bytes_recieved == -1\n");
-				perror( "recv" );
-				stopped = 1;
-			}
-			else
-			{
-				buffer[number_of_bytes_received] = '\0';
-				printf( "Received : %s\n", buffer );
-			}
-			if(buffer == "STOP")
-			{
-				printf("Stopping");
-				stopped = 1;
-			}
-			else
-			{
-				for(int i=0; i<1; i++)
-				{
-					printf("formula\n");
-					result = parse_formula(buffer);
-				}
-				int k = sprintf(resultChar,"%i", result);
-				//printf("result char %i : %s : %i\n",result,resultChar,k);
-				number_of_bytes_send = 0;
-				number_of_bytes_send = send( internet_socket, resultChar, strlen(resultChar), 0 );	
-				//printf("%s\n",resultChar);
-				if( number_of_bytes_send == -1 )
-				{
-					perror( "send" );
-					printf("error: number_of_bytes_send == -1\n");
-					stopped = 1;
-				}
-			}
-	}
-*/
 	int cntr = 0;
-	//while(steps != 7)
-	//{
-		printf("\n|%i|\n",steps);
+		//printf("\n|%i|\n",steps);
 		switch (steps)
 		{
 			case 0:
-				printf("%i\n",steps);
-				//cntr = 0;
-				//while(number_of_bytes_received == -1) {
-					//if(cntr == 0){printf("no response");}
-					//if(cntr != 0){printf(".");}
-					//cntr++;
+				//printf("%i\n",steps);
     				number_of_bytes_received = recv( internet_socket, buffer, ( sizeof buffer ) - 1, 0 );
-    				//sleep(1); // add a delay to reduce CPU usage
-				//}
 
 				buffer[number_of_bytes_received] = '\0';
 				printf( "\nReceived :(%s)\n", buffer );
@@ -230,41 +180,41 @@ void execution( int internet_socket )
 
 
 
-				printf("stopping %i\n", strcmp(buffer, "STOP") == 0);
+				// printf("stopping %i\n", strcmp(buffer, "STOP") == 0);
 
 				
 				if(strcmp(buffer, "STOP") == 0)
 				{
-					printf("Stopping");
-					printf("%i => ",steps);
+					printf("Stopping\n");
+					//printf("%i => ",steps);
 					y = 0;
 					steps = 3;
 				}
 				else
 				{
-					printf("%i => ",steps);
+					//printf("%i => ",steps);
 					steps = 1;
 				}
 
 			case 1:
-				printf("%i\n",steps);
+				//printf("%i\n",steps);
 				//for(int i=0; i<1; i++)
 					//{
 						//printf("formula\n");
 						result = parse_formula(buffer);
 					//}
-				printf("%i => ",steps);
+				//printf("%i => ",steps);
 				steps = 2;
 				
 			case 2:
-				printf("%i\n",steps);
+				printf("");
 				int k = sprintf(resultChar,"%i", result);
-				printf("ResultChar = %s| len = %i\n",resultChar,strlen(resultChar));
+				printf("result = %s\n",resultChar,strlen(resultChar));
 				number_of_bytes_send = 0;
 				number_of_bytes_send = send( internet_socket, resultChar, strlen(resultChar), 0 );	
-				printf("send = %i\n",number_of_bytes_send );
+				//printf("send = %i\n",number_of_bytes_send );
 				number_of_bytes_received = -1;
-				printf("%i => ",steps);
+				//printf("%i => ",steps);
 
 				if( number_of_bytes_send == -1 )
 				{
@@ -286,7 +236,25 @@ void execution( int internet_socket )
 				break;
 		}
 		
-	}
+	}/*
+
+	for(;;)
+	{
+		recv( internet_socket, buffer, ( sizeof buffer ) - 1, 0 );
+		if(strcmp(buffer, "STOP") == 0)
+			{
+				printf("Stopping");
+				break;
+			}
+		else
+		{
+			result = parse_formula(buffer);
+			sprintf(resultChar,"%i", result);
+			number_of_bytes_send = 0;
+			number_of_bytes_send = send( internet_socket, resultChar, strlen(resultChar), 0 );	
+			printf("send = %i\n",number_of_bytes_send );
+		}
+	}*/
 
 //}
 
