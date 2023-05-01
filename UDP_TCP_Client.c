@@ -42,7 +42,7 @@ void cleanup_UDP( int internet_socket, struct sockaddr * internet_address );
 char* SRBytes_UDP(char *message,int internet_socket, struct sockaddr * internet_address, socklen_t internet_address_length ,int action);
 int check_timeout_UDP(int sockfd, int timeout_sec, char* buf, struct sockaddr* addr, socklen_t* addrlen);
 void delay(int number_of_seconds);
-
+//gcc UDP_TCP_Client.c -l ws2_32 -o cnt.exe
 #include <time.h>
 #define MAX_BUF_SIZE 1024
 int sockfd;

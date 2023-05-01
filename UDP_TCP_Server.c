@@ -36,7 +36,7 @@
 	int OSCleanup( void ) {}
 #endif
 
-//gcc file.c -l ws2_32 -o net.exe
+//gcc UDP_TCP_Server.c -l ws2_32 -o net.exe
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
@@ -374,9 +374,14 @@ void execution( int internet_socket )
 				if(strcmp(buffer, "STOP") == 0)
 				{
 					printf("Stopping\n");
-					//printf("%i => ",steps);
-					y = 0;
-					steps = 3;
+					recv( internet_socket, buffer, ( sizeof buffer ) - 1, 0 );
+					if(strcmp(buffer, "KTHNXBYE") == 0)
+					{
+						printf( "\nReceived :(%s)\n", buffer );
+						y = 0;
+						steps = 3;
+					}
+
 				}
 				else
 				{
