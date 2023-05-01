@@ -236,5 +236,6 @@ void delay(int number_of_seconds)
 void cleanup( int internet_socket )
 {
 	//Step 3.1
+	printf("cleanup");
 	close( internet_socket );
 }
