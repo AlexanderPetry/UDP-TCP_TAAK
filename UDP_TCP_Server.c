@@ -163,7 +163,7 @@ void execution_UDP( int internet_socket )
 	if(strcmp(SRBytes_UDP("",internet_socket,1), "GO") == 0)
 	{
 		printf("Status: starting\n");
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < 20; i++)
 		{
 			int r = rand();
 			if(r > highest)
@@ -185,7 +185,7 @@ void execution_UDP( int internet_socket )
 	if(strcmp(SRBytes_UDP("",internet_socket,1), temp_val) == 0)
 	{
 		highest = 0;
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < 20; i++)
 		{
 			int r = rand();
 			if(r > highest)

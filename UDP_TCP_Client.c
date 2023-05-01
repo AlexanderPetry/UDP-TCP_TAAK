@@ -385,8 +385,9 @@ void execution( int internet_socket )
 
 	if(strcmp(input, "STOP") == 0)
 		{
-		printf("Stopping\n");
-		y = 0;
+			send( internet_socket, "KTHNXBYE", 16, 0 );
+			printf("Stopping\n");
+			y = 0;
 
 		}
 
