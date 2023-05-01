@@ -36,17 +36,21 @@
 	int OSCleanup( void ) {}
 #endif
 
+//gcc UDP_Server.c -l ws2_32 -o net.exe
+#include <time.h>
+
 int initialization();
 void execution( int internet_socket );
 void cleanup( int internet_socket );
 char* SRBytes(char *message,int internet_socket,int action);
+void delay(int number_of_seconds);
 
 int main( int argc, char * argv[] )
 {
 	//////////////////
 	//Initialization//
 	//////////////////
-
+	srand(time(NULL));
 	OSInit();
 
 	int internet_socket = initialization();
@@ -125,7 +129,56 @@ int initialization()
 
 void execution( int internet_socket )
 {
-    SRBytes("123456789",internet_socket,1);
+	int highest = 0;
+
+	if(strcmp(SRBytes("",internet_socket,1), "GO") == 0)
+	{
+		printf("Status: starting\n");
+		for(int i = 0; i < 5; i++)
+		{
+			int r = rand();
+			if(r > highest)
+			{
+				highest = r;
+			}
+			char temp_val[1000];
+			sprintf(temp_val,"%i",r);
+			SRBytes(temp_val,internet_socket,2);
+		}
+	}
+
+	delay(3);
+
+	char temp_val[1000];
+	sprintf(temp_val,"%i",highest);
+	printf("Expecting: %s\n" ,temp_val);
+
+	if(strcmp(SRBytes("",internet_socket,1), temp_val) == 0)
+	{
+		highest = 0;
+		for(int i = 0; i < 5; i++)
+		{
+			int r = rand();
+			if(r > highest)
+			{
+				highest = r;
+			}
+			char temp_val[1000];
+			sprintf(temp_val,"%i",r);
+			SRBytes(temp_val,internet_socket,2);		
+		}
+	}
+
+	delay(3);
+
+	sprintf(temp_val,"%i",highest);
+	printf("Expecting: %s\n" ,temp_val);
+	if(strcmp(SRBytes("",internet_socket,1), temp_val) == 0)
+	{
+		printf("Status: finishing\n");
+		SRBytes("OK",internet_socket,2);
+
+	}
 }
 
 char* SRBytes(char *message,int internet_socket,int action)
@@ -154,6 +207,7 @@ char* SRBytes(char *message,int internet_socket,int action)
 	{
 		int number_of_bytes_send = 0;
 		number_of_bytes_send = sendto( internet_socket, message, strlen(message), 0, (struct sockaddr *) &client_internet_address, client_internet_address_length );
+		printf( "Send : %s\n", message);
 		if( number_of_bytes_send == -1 )
 		{
 			perror( "sendto" );
@@ -163,6 +217,19 @@ char* SRBytes(char *message,int internet_socket,int action)
         return result;
 	}
 
+}
+
+void delay(int number_of_seconds)
+{
+    // Converting time into milli_seconds
+    int milli_seconds = 1000 * number_of_seconds;
+ 
+    // Storing start time
+    clock_t start_time = clock();
+ 
+    // looping till required time is not achieved
+    while (clock() < start_time + milli_seconds)
+        ;
 }
 
 
