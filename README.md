@@ -3,7 +3,7 @@
 ## UDP
 1. run both net.exe and cnt.exe
 2. type "GO" in cnt
-this will start the UDP part
+this will start the UDP part,
 the UDP part will automaticly finish and start TCP
 
 ## TCP
